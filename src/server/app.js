@@ -44,17 +44,18 @@ app.post('/add', function(req, res){
     date: new Date()
   })
 
-  commandObj.save(function(err){
+  commandObj.save(function(err, response){
     if (err) {
       res.status(500).send(err);
     } else {
-      res.send();
+      res.send(response);
     }
   })
 })
 
 app.get('/list', (req,res)=>{
-  Command.find({},'command title date tags', function(err, response){
+  var query = Command.find({}).limit(20).sort({date: -1}).select('title command date tags')
+  query.exec(function(err, response){
     if(err){
       res.sattaus(500).send(err);
     }
