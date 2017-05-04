@@ -12,7 +12,7 @@ let config = {
   },
   externals: {
     'Config': JSON.stringify({
-        apiUrl: 'http://localhost:8081'
+      apiUrl: 'http://localhost:8081'
     })
   },
   devtool: 'source-map',
