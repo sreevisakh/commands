@@ -1,18 +1,29 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
+import {editCommand, deleteCommand} from '../actions';
 /**
  * CommnadDetails
  */
 @connect((store)=>{
   if(store.selectedCommand){
     return {
+      id: store.selectedCommand._id,
       title: store.selectedCommand.title,
       command: store.selectedCommand.command,
       date: store.selectedCommand.date,
-      tags: store.selectedCommand.tags
+      tags: store.selectedCommand.tags,
     }
   }
-  return {}
+  return {};
+},(dispatch) => {
+  return {
+    edit: (id)=>{
+      dispatch(editCommand(id))
+    },
+    deleteCommand: (id)=>{
+      dispatch(deleteCommand(id))
+    }
+  }
 })
 export class CommandDetails extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -28,12 +39,17 @@ export class CommandDetails extends Component { // eslint-disable-line react/pre
         </div>
       )
     }
+    let {title, edit, deleteCommand, command, date, id} = this.props;
     return (
       <div className="card m-3">
         <div className="card-block">
-          <h4 className="card-title mb-3">{this.props.title}</h4>
-          <p className="card-text"><pre>{this.props.command}</pre></p>
-          <p className="card-text"><small className="text-muted">Last updated at {this.props.date}</small></p>
+          <h4 className="card-title mb-3">{title}
+          </h4>
+
+          <pre className="card-text">{command}</pre>
+          <p className="card-text"><small className="text-muted">Last updated at {date}</small></p>
+            <p><a href="#" className="" onClick={()=>edit(id)}>Edit</a>
+            <a href="#" className="ml-2" onClick={()=> deleteCommand(id)}>Delete</a></p>
         </div>
       </div>
     );

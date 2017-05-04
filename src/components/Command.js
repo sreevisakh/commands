@@ -6,7 +6,9 @@ import React, { Component} from 'react';
 export class Command extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <li className="list-group-item" data-id={this.props.command._id}>{this.props.command.title}</li>
+      <li className={`list-group-item ${this.props.active? 'active':''}`} data-id={this.props.command._id}>
+        {this.props.command.title}
+      </li>
     );
   }
 }

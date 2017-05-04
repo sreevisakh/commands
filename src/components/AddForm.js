@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import { hideAddForm, addCommand } from '../actions';
-import _ from 'lodash';
+import uniq from 'lodash.uniq';
+import compact from 'lodash.compact';
 /**
  * AddForm
  */
@@ -14,7 +15,7 @@ import _ from 'lodash';
 export class AddForm extends Component { // eslint-disable-line react/prefer-stateless-function
   submit(){
     this.props.addCommand({
-      title: this.title.value, command: this.command.value, tags: _.uniq(_.compact(this.tags.value.split(',')))
+      title: this.title.value, command: this.command.value, tags: uniq(compact(this.tags.value.split(',')))
     })
   }
   render() {

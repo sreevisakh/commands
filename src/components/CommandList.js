@@ -7,7 +7,8 @@ import {getCommands, selectCommand} from '../actions';
  */
  @connect((store)=>{
    return {
-     commands: store.commands
+     commands: store.commands,
+     selectedCommand: store.selectedCommand
    }
  },(dispatch)=>{
    return {
@@ -24,7 +25,10 @@ export class CommandList extends Component { // eslint-disable-line react/prefer
   }
 
   render() {
-    let li = this.props.commands.map((command) => <Command key={command._id} command={command} />)
+    let li = this.props.commands.map((command) => <Command key={command._id}
+      command={command}
+      active={(command === this.props.selectedCommand)}
+      />)
 
     return (
       <ul className="list-group m-3" onClick={this.props.select.bind(this)}>

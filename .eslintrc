@@ -26,5 +26,8 @@
     "document": false,
     "navigator": false,
     "window": false
+  },
+  "rules":{
+    "indent": ["error", 2]
   }
 }
