@@ -7,9 +7,10 @@ import Router from './routes'
 
 //configs
 let port = process.env.PORT || 8081;
+let mongodbUri = process.env.MONGODB_URI || 'mongodb://localhost/commands';
 
 //database
-mongoose.connect('mongodb://localhost/commands');
+mongoose.connect(mongodbUri);
 
 
 //express settings
