@@ -22,7 +22,7 @@ let clientConfig = {
   devtool: 'source-map',
   externals: {
     'Config': JSON.stringify({
-      apiUrl: 'http://localhost/'
+      apiUrl: '/'
     })
   },
   module: {
