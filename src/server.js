@@ -6,7 +6,7 @@ import cors from 'cors'
 import Router from './routes'
 
 //configs
-let port = process.env.PORT || 8081;
+let port = process.env.PORT;
 let mongodbUri = process.env.MONGODB_URI || 'mongodb://localhost/commands';
 
 //database

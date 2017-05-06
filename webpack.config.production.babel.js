@@ -4,6 +4,8 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var Bump = require('bump-webpack-plugin');
+
 var fs =  require('fs');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
@@ -55,12 +57,9 @@ let clientConfig = {
     }),
     new CopyWebpackPlugin([
       { from: './src/public/*.css', flatten :true},
-      { from: 'package.json', to: '../'},
-      { from: 'webpack.config.production.babel.js', to: '../'},
+      { from: 'package.json', to: '../'}
 
-    ],{
-      debug: 'info'
-    }),
+    ]),
     new UglifyJSPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.template.ejs',
@@ -102,11 +101,9 @@ let serverConfig = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    })
+    new Bump([
+      'package.json'
+    ])
   ]
 }
 module.exports = [clientConfig, serverConfig];
