@@ -22,18 +22,16 @@ function deploy(){
     cwd: path.resolve(__dirname, './dist')
   };
   //push dist folder to deploy repo
+  console.log('[DEPLOY]: Initialising Repository');
   spawnSync('git',['init'],options);
-  console.log('Initialising Repository');
-  spawnSync('git',['init'],options);
-  console.log('Adding remote url');
+  console.log('[DEPLOY]: Adding remote url');
   spawnSync('git',['remote','add', remote.name, remote.gitPath],options)
-  console.log('Add all files');
+  console.log('[DEPLOY]: Add all files');
   spawnSync('git',['add','.','--all'],options)
-  console.log(`Commit with v${version}`);
+  console.log(`[DEPLOY]: Commit with v${version}`);
   spawnSync('git', ['commit','-m',`v${version}`], options)
-  console.log('Push the changes to repo');
+  console.log('[DEPLOY]: Push the changes to repo');
   let {stdout} = spawnSync('git', ['push', '-f', remote.name, 'master'],options)
   console.log(stdout.toString());
 }
-
 deploy();

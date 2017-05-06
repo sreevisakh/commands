@@ -5,6 +5,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin')
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var Bump = require('bump-webpack-plugin');
+var pkg =  require('./package.json');
 
 var fs =  require('fs');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -22,7 +23,7 @@ let clientConfig = {
   devtool: 'source-map',
   externals: {
     'Config': JSON.stringify({
-      apiUrl: '/'
+      apiUrl: pkg.remote.url
     })
   },
   module: {
