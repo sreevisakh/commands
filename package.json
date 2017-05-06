@@ -12,7 +12,7 @@
   },
   "remote": {
     "name": "heroku",
-    "gitPath": "https://git.heroku.com/quiet-shelf-59732.git",
+    "gitPath": "https://git.heroku.com/mycommander.git",
     "url": "https://mycommander.herokuapp.com/"
   },
   "author": "",

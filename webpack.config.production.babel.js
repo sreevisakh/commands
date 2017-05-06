@@ -43,8 +43,7 @@ let clientConfig = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'],{
-      root: path.resolve(__dirname),
-      exclude: ['.git']
+      root: path.resolve(__dirname)
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
