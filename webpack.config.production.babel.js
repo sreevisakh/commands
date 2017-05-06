@@ -40,8 +40,8 @@ let clientConfig = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin({
-      root: 'dist',
+    new CleanWebpackPlugin(['dist'],{
+      root: path.resolve(__dirname),
       exclude: ['.git']
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -56,6 +56,8 @@ let clientConfig = {
     new CopyWebpackPlugin([
       { from: './src/public/*.css', flatten :true},
       { from: 'package.json', to: '../'},
+      { from: 'webpack.config.production.babel.js', to: '../'},
+
     ],{
       debug: 'info'
     }),
@@ -107,5 +109,4 @@ let serverConfig = {
     })
   ]
 }
-
-export default [clientConfig, serverConfig];
+module.exports = [clientConfig, serverConfig];

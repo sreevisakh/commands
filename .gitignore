@@ -1,3 +1,5 @@
 node_modules
 lib
+dist/*
+!dist/.git
 npm-debug.log
