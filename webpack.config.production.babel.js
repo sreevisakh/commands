@@ -40,7 +40,10 @@ let clientConfig = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin('dist'),
+    new CleanWebpackPlugin({
+      root: 'dist',
+      exclude: ['.git']
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
       minChunks: Infinity,
