@@ -1,0 +1,19 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+.searchButton {
+  float: right;
+  min-width: 75px;
+}
+.searchForm{
+  margin-bottom: 25px;
+  width: 100%;
+}
+.searchInput{
+  overflow: hidden;
+  width: auto;
+  input{
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 1.2em;
+  }
+}

@@ -31,7 +31,7 @@ export class CommandList extends Component { // eslint-disable-line react/prefer
       />)
 
     return (
-      <ul className="list-group m-3" onClick={this.props.select.bind(this)}>
+      <ul className="list-group mb-3" onClick={this.props.select.bind(this)}>
         {li}
       </ul>
     );

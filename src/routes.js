@@ -30,6 +30,7 @@ Router.get('/command/:id', function(req,res){
 })
 
 Router.post('/add', function(req, res){
+  console.log(req.body)
   let {command, title, tags} = req.body
   var commandObj = new Command({
     title,

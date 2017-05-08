@@ -16,10 +16,11 @@ mongoose.connect(mongodbUri);
 //express settings
 const app = express();
 app.use(cors())
-app.use('/', Router);
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname));
+
+app.use('/', Router);
 
 let staticPath =  path.resolve(__dirname, '../public');
 console.log("Express Static Path: ",staticPath);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import SearchBar from './SearchBar';
+import SearchBar from './SearchBar/';
 import CommandList from './CommandList';
 import CommandDetails from './CommandDetails';
 import NavBar from './NavBar';
@@ -20,13 +20,12 @@ export class Layout extends Component { // eslint-disable-line react/prefer-stat
     return (
       <div>
         <NavBar />
-        <div className="container-fluid">
+        <div className="container">
         <Message text={this.props.message.text} type={this.props.message.type} />
         <div className="row">
           <div className="col-md-4">
             <SearchBar />
             <CommandList />
-
           </div>
           <div className="col-md-8">
             <AddForm show={this.props.showAddForm}/>
