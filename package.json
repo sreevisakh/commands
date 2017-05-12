@@ -1,6 +1,6 @@
 {
   "name": "commands",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config ./webpack.config.production.babel.js",
     "serve": "nodemon src/server.js --exec babel-node",
-    "dev": "webpack-dev-server --content-base=src/public/ --hot --inline",
+    "dev": "webpack-dev-server --content-base=src/public/ --progress --inline --hot",
     "deploy": "yarn build && babel-node deploy.js"
   },
   "remote": {
@@ -49,6 +49,7 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-react-hmre": "^1.1.1",
     "bump-webpack-plugin": "^0.1.0",
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
