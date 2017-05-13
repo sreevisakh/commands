@@ -17,15 +17,14 @@ import {editCommand, deleteCommand} from '../actions';
   return {};
 },(dispatch) => {
   return {
-    edit: (id)=>{
-      dispatch(editCommand(id))
-    },
-    deleteCommand: (id)=>{
-      dispatch(deleteCommand(id))
-    }
+    edit: (id)=> dispatch(editCommand(id)),
+    deleteCommand: (id)=> dispatch(deleteCommand(id))
   }
 })
 export class CommandDetails extends Component { // eslint-disable-line react/prefer-stateless-function
+  select(e){
+    e.target.select();
+  }
   render() {
     if(!this.props.show){
       return null;
@@ -46,7 +45,7 @@ export class CommandDetails extends Component { // eslint-disable-line react/pre
           <h4 className="card-title mb-3">{title}
           </h4>
 
-          <pre className="card-text">{command}</pre>
+          <textarea readOnly="true" onClick={this.select.bind(this)} className="form-control" value={command}></textarea>
           <p className="card-text"><small className="text-muted">Last updated at {date}</small></p>
             <p><a href="#" className="" onClick={()=>edit(id)}>Edit</a>
             <a href="#" className="ml-2" onClick={()=> deleteCommand(id)}>Delete</a></p>

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Link from './Link'
 import { connect } from 'react-redux';
 import {showAddForm} from '../actions';
+import SearchBar from './SearchBar/'
 /**
  * NavBar
  */
@@ -34,6 +35,7 @@ export class NavBar extends Component { // eslint-disable-line react/prefer-stat
             <li className="nav-item">
             </li>
           </ul>
+          <SearchBar />
         </div>
       </nav>
     );

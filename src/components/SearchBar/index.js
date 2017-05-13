@@ -20,22 +20,14 @@ import s from './SearchBar.scss'
 })
 export class SearchBar extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    let searchButton = cn(['btn','btn-primary',s.searchButton])
     return (
-      <div className="input-group mt-3">
-      <form className={s.searchForm} onSubmit= {e => {
+      <form className="form-inline my-2 my-lg-0"  onSubmit= {e => {
         e.preventDefault();
         this.props.onSubmit(e);
       }}>
-        <button type="submit" className={searchButton} >Go</button>
-        <div className={s.searchInput}>
-          <input type="text" className="form-control pull-left"
-          style={{"width":"auto"}}
-          placeholder="Search"
-          aria-describedby="basic-addon2"/>
-        </div>
+        <input className="form-control mr-sm-2" type="text" placeholder="Search" autoFocus/>
+        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-</div>
     );
   }
 }

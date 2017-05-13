@@ -8,7 +8,7 @@ var CommandSchema = new Schema({
   title: String,
   command: String,
   date: Date,
-  tags:[]
+  tags:[String]
 });
 
 export default mongoose.model('Command', CommandSchema);

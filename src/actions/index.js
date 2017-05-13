@@ -39,7 +39,25 @@ export function addCommand(command){
 
 export function editCommand(id){
   return (dispatch)=>{
-    dispatch({ type: 'EDIT_COMMAND_START' })
-    dispatch({ type: 'EDIT_COMMAND', payload: axios.post(`${Config.apiUrl}update`, command) })
+    dispatch({ type: 'EDIT_COMMAND_START', payload: id})
+  }
+}
+export function updateCommand(command){
+  return (dispatch)=>{
+    dispatch({ type: 'UPDATE_COMMAND_START' })
+    dispatch({ type: 'UPDATE_COMMAND', payload: axios.post(`${Config.apiUrl}update`, command) })
+  }
+}
+
+export function deleteCommand(id){
+  return (dispatch)=>{
+    dispatch({ type: 'DELETE_COMMAND_START' })
+    dispatch({ type: 'DELETE_COMMAND', payload: axios.post(`${Config.apiUrl}delete`, {_id: id}) })
+  }
+}
+
+export function showMessage(obj){
+  return (dispatch) => {
+    dispatch({type: 'SHOW_MESSAGE', payload: obj})
   }
 }

@@ -11,8 +11,8 @@ import Message from './Message'
  */
  @connect((store) =>{
    return {
-     showAddForm: store.showAddForm,
-     message: store.message
+     message: store.message,
+     showForm: store.showForm
    }
  })
 export class Layout extends Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,12 +24,11 @@ export class Layout extends Component { // eslint-disable-line react/prefer-stat
         <Message text={this.props.message.text} type={this.props.message.type} />
         <div className="row">
           <div className="col-md-4">
-            <SearchBar />
             <CommandList />
           </div>
           <div className="col-md-8">
-            <AddForm show={this.props.showAddForm}/>
-            <CommandDetails show={!this.props.showAddForm} />
+            <AddForm />
+            <CommandDetails show={!this.props.showForm} />
           </div>
         </div>
         </div>

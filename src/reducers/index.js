@@ -1,4 +1,5 @@
 import find from 'lodash.find';
+import _ from 'lodash';
 
 const initialState = {
   searchQuery : '',
@@ -7,20 +8,22 @@ const initialState = {
   adding:false,
   added:false,
   commands: [],
-  showAddForm: false,
+  showForm: false,
+  editCommand: null,
   selectedCommand: null,
   message :{
     text:'',
     type:''
-  }
+  },
+  progress: false
 }
 
 export default function reducer(state = initialState, {type, payload}) {
   switch(type){
   case 'SHOW_ADD_FORM':
-    return {...state, showAddForm: true}
+    return {...state, showForm: true}
   case 'HIDE_ADD_FORM':
-    return {...state, showAddForm: false}
+    return {...state, showForm: false}
   case 'SEARCH_COMMAND_START':
     return {...state, searchQuery:payload, searching:true, searched:false}
   case 'SEARCH_COMMAND_FULFILLED':
@@ -35,7 +38,7 @@ export default function reducer(state = initialState, {type, payload}) {
     return {...state,
       adding:false,
       commands: [payload.data, ...state.commands],
-      showAddForm: false,
+      showForm: false,
       message : { text: 'Command Added Successfully', type:'success'}}
   case 'ADD_COMMAND_REJECTED':
     return {...state,
@@ -45,8 +48,46 @@ export default function reducer(state = initialState, {type, payload}) {
   case 'SELECT_COMMAND':
     return {
       ...state,
+      showForm: false,
       selectedCommand: find(state.commands, {_id : payload})
     };
+  case 'EDIT_COMMAND_START':
+    return {
+      ...state,
+      showForm: true,
+      editCommand: _.first(state.commands.filter((command) => command._id == payload))
+    };
+  case 'UPDATE_COMMAND_FULFILLED':
+    let commandIndex = _.findIndex(state.commands, {_id : payload.data._id})
+    return {
+      ...state,
+      showForm:false,
+      editForm:null,
+      commands: state.commands.map((command)=>{
+        if(command._id === payload.data._id){
+          return payload.data;
+        }
+        else{
+          return command;
+        }
+      })
+    };
+  case 'DELETE_COMMAND_FULFILLED':
+    return {
+      ...state,
+      selectedCommand:null,
+      message: { text: 'Command Deleted Successfully', type:'success'},
+      commands: _.compact(state.commands.map((command)=> {
+        if(command._id !== payload.data._id){
+          return command
+        }
+      }))
+    }
+  case 'SHOW_MESSAGE':
+    return {
+      ...state,
+      message: payload
+    }
   }
   return state;
 }

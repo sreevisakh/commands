@@ -4,6 +4,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Bump = require('bump-webpack-plugin');
 var pkg =  require('./package.json');
 
@@ -14,7 +15,10 @@ var path = require('path');
 let clientConfig = {
   entry: {
     app: path.join(__dirname, '/src/components/App.js'),
-    vendor : path.join(__dirname, '/src/vendor.js')
+    vendor : ["lodash.uniq","lodash.compact","lodash.find","isomorphic-fetch",
+      "react","react-dom","react-redux","redux","redux-logger",
+      "redux-promise-middleware","redux-thunk"
+    ]
   },
   output: {
     path: path.join(__dirname, `/dist/public/`),
@@ -30,6 +34,7 @@ let clientConfig = {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'react'],
@@ -41,18 +46,22 @@ let clientConfig = {
         }
       },
       {
-        test: /\.scss$/,
-        use: [{
-          loader: "style-loader" // creates style nodes from JS strings
-        }, {
-          loader: "css-loader" // translates CSS into CommonJS
-        }, {
-          loader: "sass-loader" // compiles Sass to CSS
-        }]
+        test: /\.scss|\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'isomorphic-style-loader',
+          publicPath: 'public',
+          use: [
+            { loader:'css-loader',options:{module:true,minimize:true,sourceMap:true}},
+            { loader:'sass-loader', options:{minimize:true,sourceMap:true}}
+          ]
+        })
       }
     ]
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      debug: true
+    }),
     new CleanWebpackPlugin(['dist'],{
       root: path.resolve(__dirname)
     }),
@@ -66,21 +75,21 @@ let clientConfig = {
       }
     }),
     new CopyWebpackPlugin([
-      { from: './src/public/*.css', flatten :true},
       { from: 'package.json', to: '../'}
-
     ]),
+    new ExtractTextPlugin('style.css'),
     new UglifyJSPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.template.ejs',
-      inject: 'body',
+      inject: true,
     })
+
   ]
 };
 
 let serverConfig = {
   entry: {
-    server: path.join(__dirname, '/src/server.js'),
+    server: ['babel-polyfill', path.join(__dirname, '/src/server.js')],
     routes: path.join(__dirname, '/src/routes.js')
   },
   target: 'node',
