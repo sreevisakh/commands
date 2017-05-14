@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import SearchBar from './SearchBar/';
 import CommandList from './CommandList';
 import CommandDetails from './CommandDetails';
@@ -9,12 +9,12 @@ import Message from './Message'
 /**
  * Layout
  */
- @connect((store) =>{
-   return {
-     message: store.message,
-     showForm: store.showForm
-   }
- })
+@connect((store) => {
+  return {
+    message: store.message,
+    showForm: store.form.show
+  }
+})
 export class Layout extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (

@@ -1,24 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import Command from './Command';
-import {connect} from 'react-redux';
-import {getCommands, selectCommand} from '../actions';
+import { connect } from 'react-redux';
+import { getCommands, selectCommand } from '../actions';
 /**
  * CommandList
  */
- @connect((store)=>{
-   return {
-     commands: store.commands,
-     selectedCommand: store.selectedCommand
-   }
- },(dispatch)=>{
-   return {
-     getCommands: ()=>dispatch(getCommands()),
-     select: (e)=> {
-       let id = e.target.getAttribute('data-id');
-       dispatch(selectCommand(id))
-     }
-   }
- })
+@connect((store) => {
+  return {
+    commands: store.command.commands,
+    selectedCommand: store.command.selectedCommand
+  }
+}, (dispatch) => {
+  return {
+    getCommands: () => dispatch(getCommands()),
+    select: (e) => {
+      let id = e.target.getAttribute('data-id');
+      dispatch(selectCommand(id))
+    }
+  }
+})
 export class CommandList extends Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     this.props.getCommands()
@@ -31,7 +31,7 @@ export class CommandList extends Component { // eslint-disable-line react/prefer
       />)
 
     return (
-      <ul className="list-group mb-3" onClick={this.props.select.bind(this)}>
+      <ul className="list-group mb-3" onClick={this.props.select}>
         {li}
       </ul>
     );

@@ -7,6 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Bump = require('bump-webpack-plugin');
 var pkg =  require('./package.json');
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 var fs =  require('fs');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -83,7 +84,6 @@ let clientConfig = {
       template: 'src/index.template.ejs',
       inject: true,
     })
-
   ]
 };
 

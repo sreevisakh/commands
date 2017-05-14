@@ -1,6 +1,6 @@
-import React, { Component, PropTypes} from 'react';
-import { searchCommand} from '../../actions';
-import { connect} from 'react-redux';
+import React, { Component, PropTypes } from 'react';
+import { searchCommand } from '../../actions';
+import { connect } from 'react-redux';
 import cn from 'classnames';
 import s from './SearchBar.scss'
 
@@ -9,12 +9,13 @@ import s from './SearchBar.scss'
  */
 @connect((store) => {
   return {
-    searchQuery: store.searchQuery
+    searchQuery: store.command.query
   }
 }, (dispatch) => {
   return {
     onSubmit: (e) => {
-      dispatch(searchCommand(e.target.querySelector('input').value));
+      dispatch(searchCommand(e.target.querySelector('input')
+        .value));
     }
   }
 })

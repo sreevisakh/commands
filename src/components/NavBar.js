@@ -1,18 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import Link from './Link'
 import { connect } from 'react-redux';
-import {showAddForm} from '../actions';
+import { showAddForm } from '../actions';
 import SearchBar from './SearchBar/'
 /**
  * NavBar
  */
- @connect(null, (dispatch)=>{
-   return {
-     navigate: function() {
-       dispatch(showAddForm())
-     }
-   }
- })
+@connect(null, (dispatch) => {
+  return {
+    navigate: function () {
+      dispatch(showAddForm())
+    }
+  }
+})
 export class NavBar extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (

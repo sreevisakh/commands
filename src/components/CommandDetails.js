@@ -1,35 +1,31 @@
 import React, { Component, PropTypes } from 'react';
-import {connect} from 'react-redux';
-import {editCommand, deleteCommand} from '../actions';
+import { connect } from 'react-redux';
+import { editCommand, deleteCommand } from '../actions';
 /**
  * CommnadDetails
  */
-@connect((store)=>{
-  if(store.selectedCommand){
-    return {
-      id: store.selectedCommand._id,
-      title: store.selectedCommand.title,
-      command: store.selectedCommand.command,
-      date: store.selectedCommand.date,
-      tags: store.selectedCommand.tags,
-    }
-  }
-  return {};
-},(dispatch) => {
+@connect((store) => {
+  return { selectedCommand: store.command.selectedCommand }
+}, (dispatch) => {
   return {
-    edit: (id)=> dispatch(editCommand(id)),
-    deleteCommand: (id)=> dispatch(deleteCommand(id))
+    edit: (command) => dispatch(editCommand(command)),
+    deleteCommand: (id) => dispatch(deleteCommand(id))
   }
 })
 export class CommandDetails extends Component { // eslint-disable-line react/prefer-stateless-function
-  select(e){
+  select(e) {
     e.target.select();
   }
+  edit(command) {
+    this.props.edit(command)
+  }
+  deleteCommand(id) {
+    this.props.deleteCommand(id)
+  }
   render() {
-    if(!this.props.show){
+    if (!this.props.show) {
       return null;
-    }
-    else if(!this.props.title){
+    } else if (!this.props.selectedCommand) {
       return (
         <div className="card m-3">
           <div className="card-block">
@@ -38,7 +34,7 @@ export class CommandDetails extends Component { // eslint-disable-line react/pre
         </div>
       )
     }
-    let {title, edit, deleteCommand, command, date, id} = this.props;
+    let { title, edit, deleteCommand, command, date, id } = this.props.selectedCommand;
     return (
       <div className="card m-3">
         <div className="card-block">
@@ -47,8 +43,8 @@ export class CommandDetails extends Component { // eslint-disable-line react/pre
 
           <textarea readOnly="true" onClick={this.select.bind(this)} className="form-control" value={command}></textarea>
           <p className="card-text"><small className="text-muted">Last updated at {date}</small></p>
-            <p><a href="#" className="" onClick={()=>edit(id)}>Edit</a>
-            <a href="#" className="ml-2" onClick={()=> deleteCommand(id)}>Delete</a></p>
+            <p><a href="#" className="" onClick={()=>this.edit(this.props.selectedCommand)}>Edit</a>
+            <a href="#" className="ml-2" onClick={()=> this.deleteCommand(id)}>Delete</a></p>
         </div>
       </div>
     );

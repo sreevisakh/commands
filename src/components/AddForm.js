@@ -1,66 +1,66 @@
 import React, { Component, PropTypes } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { hideAddForm, addCommand, updateCommand, showMessage } from '../actions';
 import uniq from 'lodash.uniq';
 import compact from 'lodash.compact';
 /**
  * AddForm
  */
-@connect((store)=>{
+@connect((store) => {
   return {
-    show: store.showForm,
-    editFormData: store.editCommand
+    show: store.form.show,
+    data: store.form.data
   }
-},(dispatch)=>{
+}, (dispatch) => {
   return {
-    hideForm: ()=> dispatch(hideAddForm()),
-    addCommand: (command)=>dispatch(addCommand(command)),
+    hideForm: () => dispatch(hideAddForm()),
+    addCommand: (command) => dispatch(addCommand(command)),
     updateCommand: (command) => dispatch(updateCommand(command)),
     showMessage: (obj) => dispatch(showMessage(obj))
   }
 })
 export class AddForm extends Component { // eslint-disable-line react/prefer-stateless-function
-  validate({title,command,tags}){
+  validate({ title, command, tags }) {
     try {
-      if(!title.trim()){
+      if (!title.trim()) {
         return null
       }
-      if(!command.trim()){
+      if (!command.trim()) {
         return null;
       }
-      tags = _.uniq(tags.split(',').map(tag => tag.trim()));
-      if(!tags.length){
+      tags = _.uniq(tags.split(',')
+        .map(tag => tag.trim()));
+      if (!tags.length) {
         return null
       }
-      return {title, command,tags}
-    }
-    catch(e){
+      return { title, command, tags }
+    } catch (e) {
       return null
     }
   }
-  submit(e){
+  submit(e) {
     e.preventDefault();
     let data = this.validate({
-      title: this.title.value, command: this.command.value, tags: this.tags.value
+      title: this.title.value,
+      command: this.command.value,
+      tags: this.tags.value
     })
-    if(this.props.editFormData && data){
+    if (this.props.data && data) {
       this.props.updateCommand({
-        _id : this.props.editFormData._id,
+        _id: this.props.data._id,
         ...data
       })
-    }
-    else if(!this.props.editFormData && data){
-      this.props.addCommand(validate())
-    }
-    else{
-      this.props.showMessage({text: 'Invalid input', type:'error'})
+    } else if (!this.props.data && data) {
+      this.props.addCommand(data)
+    } else {
+      this.props.showMessage({ text: 'Invalid input', type: 'error' })
     }
   }
   render() {
-    if(!this.props.show){
+    if (!this.props.show) {
       return null
     }
-    let formData = this.props.editFormData || {}
+    let formData = this.props.data || {}
 
     return (
       <div className="card m-3">
