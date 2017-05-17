@@ -1,15 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
-var thunk = require('redux-thunk')
-  .default
-import promise from 'redux-promise-middleware'
-import { searchCommand } from './actions';
-import reducer from './reducers'
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+import reducer from './reducers';
+const thunk = require('redux-thunk').default;
 
 const logger = createLogger({
-  collapsed: true
+  collapsed: true,
 });
 
-let store = createStore(reducer, applyMiddleware(thunk, logger, promise()))
+const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 export default store;

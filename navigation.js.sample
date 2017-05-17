@@ -1,0 +1,49 @@
+// @flow
+import * as dayLevelFactsActions from './priceVolumeDistribution';
+import * as matchCompetitivePositioningActions from './inCompetitivePositioning';
+import * as pricingGroupActions from './pricingGroup';
+import * as matchCompetitorProgramActions from './competitorsMetrics';
+import * as forceBreakupActions from './forceBreakup';
+import * as sellThroughActions from './sellThrough';
+import * as productPricesActions from './productPrices';
+import * as promoPricingActions from './promoPricingActions';
+import * as promoMetricsActions from './promotionMetrics';
+import * as pricingPointActions from './pricePoints';
+import * as promotionDetailsActions from './promotionDetailsActions';
+import * as roundingRulesAction from './roundingRules';
+import * as modalLoader from './inSeasonModalLoader';
+import * as mapFactIdentifierActions from './mapFactIdentifierActions';
+import translator from '../utils/I18N';
+
+import appConstants from '../constants/appConstants';
+
+export function fetchDataForInSeasonModal(factId: number, eventId: number, endDayKey: number, season: string, isMultiRetail: boolean): PromiseAction {
+    return dispatch => Promise
+        .all([
+            dispatch(productPricesActions.fetchProductPricesForSeason(factId)),
+            dispatch(pricingPointActions.fetchPreSeasonPricePointData(factId, appConstants.NO_SNAPSHOT_VERSION)),
+            dispatch(pricingGroupActions.fetchPricingGroupData(factId, season)),
+            dispatch(matchCompetitivePositioningActions.fetchCompetitivePositioningData(factId)),
+            dispatch(sellThroughActions.fetchSellThroughDayMetrics(factId, season)),
+            dispatch(sellThroughActions.fetchSellThroughSeasonMetrics(factId, season)),
+            dispatch(matchCompetitorProgramActions.fetchCompetitorsMetrics(factId, season)),
+            dispatch(pricingGroupActions.getEventMeasures(factId, eventId)),
+            dispatch(promoPricingActions.fetchDailyPromotions(factId, eventId)),
+            dispatch(promoPricingActions.fetchDayLevelPricing(factId, eventId)),
+            dispatch(promotionDetailsActions.getPromotions(factId, eventId)),
+            dispatch(promoMetricsActions.fetchPromotionMetricsData(factId, eventId)),
+            dispatch(forceBreakupActions.fetchForceBreakupData(factId, eventId, season)),
+            dispatch(dayLevelFactsActions.fetchDayLevelPriceVolume(season, factId, endDayKey, eventId, isMultiRetail)),
+            dispatch(productPricesActions.fetchProductPricesForEvent(factId, eventId)),
+            dispatch(roundingRulesAction.fetchInSeasonRoundingRules(factId, eventId)),
+            dispatch(matchCompetitivePositioningActions.resetCompetitivePositioningData()),
+            dispatch(sellThroughActions.resetSellThroughData()),
+            dispatch(mapFactIdentifierActions.updateFactIdentifier(factId)),
+            dispatch(promotionDetailsActions.validatePromotions()),
+            dispatch(dayLevelFactsActions.resetEventPriceVolume()),
+            dispatch(matchCompetitorProgramActions.resetCompetitorsMetrics()),
+        ])
+        .catch(() => {
+            dispatch(modalLoader.hideInSeasonModalLoader(translator.translate('forces.failed-network')));
+        });
+}

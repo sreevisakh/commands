@@ -1,0 +1,75 @@
+import { expect } from 'chai';
+import configureMockStore from 'redux-mock-store';
+import sinon from 'sinon';
+import thunk from 'redux-thunk';
+
+import fetch from '../../src/utils/fetch';
+import types from '../../src/constants/actionTypes';
+import * as actions from '../../src/actions/navigate';
+import translator from '../../src/utils/I18N';
+import BusinessConstants from '../../src/constants/businessConstants';
+
+
+/* eslint no-unused-expressions:0 */
+describe('Navigate Actions', () => {
+  let sandbox;
+  let fetchStub;
+  let fetchGetStub;
+  const mockStore = configureMockStore([thunk]);
+  const translation = {
+    'forces.failed-network': 'abc',
+  };
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    fetchStub = sandbox.stub(fetch, 'post');
+    fetchGetStub = sandbox.stub(fetch, 'get');
+    sandbox.stub(translator, 'translate', key => translation[key]);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('invokes all the calls for event change', () => {
+    fetchStub.returns(Promise.resolve({ data: { success: 'invoke data call' } }));
+    fetchGetStub.returns(Promise.resolve({ data: { success: 'invoke data call with get' } }));
+    const factIdentifier = 12;
+    const store = mockStore({ stores: [] });
+
+    const actionsTypes = [
+      types.RESET_EVENT_PRICE_VOLUME,
+      types.RESET_MATCH_COMPETITIVE_POSITIONING,
+      types.RESET_SELL_THROUGH,
+      types.PRICING_INFO_SUCCESS,
+      types.UPDATE_FACT_IDENTIFIER,
+      types.MATCH_COMPETITIVE_POSITIONING_UPDATED,
+      types.SELL_THROUGH_DAY_METRICS,
+      types.SELL_THROUGH_SEASON_METRICS,
+      types.PRODUCT_PRICES_FOR_SEASON_UPDATED,
+      types.RESET_COMPETITIVE_PROGRAM,
+      types.FORCE_BREAKUP_DATA_UPDATED,
+      types.IN_PRICEPOINT_DATA_SUCCESS,
+      types.PRE_PRICEPOINT_DATA_SUCCESS,
+      types.PRODUCT_PRICES_FOR_EVENT_UPDATED,
+      types.MATCH_COMPETITIVE_PROGRAM_UPDATED,
+      types.DAY_LEVEL_PRICE_VOLUME,
+      types.UPDATE_EVENT_PROMOTIONS,
+      types.PROMOTION_METRICS_UPDATED,
+      types.DAY_LEVEL_PRICING_UPDATED,
+      types.DAILY_PROMOTIONS_UPDATED,
+      types.VALIDATE_PROMOTIONS,
+      types.INSEASON_MODAL_LOADER,
+      types.FETCH_EVENT_MEASURES,
+      types.ROUNDING_RULES_UPDATED,
+    ];
+    return store.dispatch(actions.fetchDataForInSeasonModal(factIdentifier, 1, 1, 'in', BusinessConstants.SINGLE_RETAIL))
+      .then(() => {
+        const allActionsRaised = store.getActions().every((action) => {
+          const filtered = actionsTypes.filter(act => act === action.type);
+          return filtered.length >= 1;
+        });
+        expect(allActionsRaised).to.be.true;
+      });
+  });
+});

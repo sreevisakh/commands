@@ -44,7 +44,7 @@ export class CommandDetails extends Component { // eslint-disable-line react/pre
           <textarea readOnly="true" onClick={this.select.bind(this)} className="form-control" value={command}></textarea>
           <p className="card-text"><small className="text-muted">Last updated at {date}</small></p>
             <p><a href="#" className="" onClick={()=>this.edit(this.props.selectedCommand)}>Edit</a>
-            <a href="#" className="ml-2" onClick={()=> this.deleteCommand(id)}>Delete</a></p>
+            <a href="#" className="ml-2" onClick={()=> this.deleteCommand(this.props.selectedCommand._id)}>Delete</a></p>
         </div>
       </div>
     );
